@@ -12,8 +12,3 @@ http://localhost:15672/
 ```
 
 ### run the services
-
-```bash
-yarn start:dev <service-name>
-http://localhost:4000/
-```
