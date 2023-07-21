@@ -2,13 +2,12 @@
 
 This is the Backend API with Microservice Approach.
 
-## Available Commands
-
-### run the docker first
+## Generating and Migration Commands
 
 ```bash
-docker-compose up
-http://localhost:15672/
-```
+npm run generate:migration -- apps/auth/src/db/migrations/InitDB
 
-### run the services
+npm run build
+
+npm run run:migration
+```
