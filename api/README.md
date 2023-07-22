@@ -2,7 +2,15 @@
 
 This is the Backend API with Microservice Approach.
 
-## Generating and Migration Commands
+## Available Commands
+
+### Run the project locally
+
+```bash
+docker-compose up
+```
+
+### Generating and Migration Commands
 
 ```bash
 npm run generate:migration -- apps/auth/src/db/migrations/InitDB
