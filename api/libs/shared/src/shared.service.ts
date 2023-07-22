@@ -1,4 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
 
 @Injectable()
-export class SharedService {}
+export class SharedService {
+  constructor(private readonly configService: ConfigService) {}
+
+  /**
+   * Get RMQ Options
+   */
+  getRmqOptions(queue: string): RmqOptions {
+    const USER = this.configService.get('RABBITMQ_USER');
+    const PASSWORD = this.configService.get('RABBITMQ_PASS');
+    const HOST = this.configService.get('RABBITMQ_HOST');
+
+    return {
+      transport: Transport.RMQ,
+      options: {
+        urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
+        noAck: false,
+        queue,
+        queueOptions: {
+          durable: true,
+        },
+      },
+    };
+  }
+
+  /**
+   * Acknowledge messge
+   */
+  acknowledgeMessage(context: RmqContext) {
+    const channel = context.getChannelRef();
+    const message = context.getMessage();
+    channel.ack(message);
+  }
+}
