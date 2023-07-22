@@ -1,5 +1,4 @@
-import { SharedModule } from '@app/shared';
-import { PostgresDBModule } from '@app/shared/postgresdb.module';
+import { PostgresDBModule, SharedModule } from '@app/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
