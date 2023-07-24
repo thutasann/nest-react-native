@@ -93,8 +93,10 @@ export class AuthService {
     const user = await this.validateUser(email, password);
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException();
     }
+
+    delete user.password;
 
     const jwt = await this.jwtService.signAsync({ user });
 
