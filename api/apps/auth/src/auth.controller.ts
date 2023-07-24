@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import {
   Ctx,
   MessagePattern,
@@ -13,7 +13,10 @@ import { LoginUserDTO } from './dtos/login-user.dto';
 @Controller()
 export class AuthController {
   constructor(
+    @Inject('AuthServiceInterface')
     private readonly authService: AuthService,
+
+    @Inject('SharedServiceInterface')
     private readonly sharedService: SharedService,
   ) {}
 
