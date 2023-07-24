@@ -102,4 +102,20 @@ export class AuthService {
       token: jwt,
     };
   }
+
+  /**
+   * Verify JWT
+   */
+  async verifyJwt(jwt: string): Promise<{ exp: number }> {
+    if (!jwt) {
+      throw new UnauthorizedException();
+    }
+
+    try {
+      const { exp } = await this.jwtService.verifyAsync(jwt);
+      return { exp };
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
+  }
 }
