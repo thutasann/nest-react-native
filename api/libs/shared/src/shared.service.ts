@@ -6,9 +6,6 @@ import { RmqContext, RmqOptions, Transport } from '@nestjs/microservices';
 export class SharedService {
   constructor(private readonly configService: ConfigService) {}
 
-  /**
-   * Get RMQ Options
-   */
   getRmqOptions(queue: string): RmqOptions {
     const USER = this.configService.get('RABBITMQ_USER');
     const PASSWORD = this.configService.get('RABBITMQ_PASS');
@@ -27,9 +24,6 @@ export class SharedService {
     };
   }
 
-  /**
-   * Acknowledge messge
-   */
   acknowledgeMessage(context: RmqContext) {
     const channel = context.getChannelRef();
     const message = context.getMessage();
