@@ -1,8 +1,4 @@
 {
   "singleQuote": true,
-  "trailingComma": "all",
-  "endOfLine": "auto",
-  "bracketSpacing": false,
-  "arrowParens": "avoid",
-  "bracketSameLine": true
+  "trailingComma": "all"
 }

@@ -4,12 +4,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import {NewUserDTO} from './dtos/new-user.dto';
+import { NewUserDTO } from './dtos/new-user.dto';
 import * as bcrypt from 'bcrypt';
-import {LoginUserDTO} from './dtos/login-user.dto';
-import {JwtService} from '@nestjs/jwt';
-import {UserEntity, UserRepositoryInterface} from '@app/shared';
-import {AuthServiceInterface} from './interfaces/auth.service.interface';
+import { LoginUserDTO } from './dtos/login-user.dto';
+import { JwtService } from '@nestjs/jwt';
+import { UserEntity, UserRepositoryInterface } from '@app/shared';
+import { AuthServiceInterface } from './interfaces/auth.service.interface';
 
 @Injectable()
 export class AuthService implements AuthServiceInterface {
@@ -36,30 +36,6 @@ export class AuthService implements AuthServiceInterface {
     return bcrypt.hash(password, 12);
   }
 
-  /**
-   * register
-   */
-  async register(newUser: Readonly<NewUserDTO>): Promise<UserEntity> {
-    const {firstName, lastName, email, password} = newUser;
-    const existingUser = await this.findByEmail(email);
-
-    if (existingUser) {
-      throw new ConflictException('An account with that email already exists');
-    }
-
-    const hashedPassword = await this.hashPassword(password);
-
-    const savedUser = await this.userRepository.save({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
-
-    delete savedUser.password;
-    return savedUser;
-  }
-
   async doesPasswordMatch(
     password: string,
     hashedPassword: string,
@@ -83,14 +59,32 @@ export class AuthService implements AuthServiceInterface {
     return user;
   }
 
-  /**
-   * Login
-   */
+  async register(newUser: Readonly<NewUserDTO>): Promise<UserEntity> {
+    const { firstName, lastName, email, password } = newUser;
+    const existingUser = await this.findByEmail(email);
+
+    if (existingUser) {
+      throw new ConflictException('An account with that email already exists');
+    }
+
+    const hashedPassword = await this.hashPassword(password);
+
+    const savedUser = await this.userRepository.save({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+    });
+
+    delete savedUser.password;
+    return savedUser;
+  }
+
   async login(loginUser: Readonly<LoginUserDTO>): Promise<{
     token: string;
     user: UserEntity;
   }> {
-    const {email, password} = loginUser;
+    const { email, password } = loginUser;
     const user = await this.validateUser(email, password);
 
     if (!user) {
@@ -99,7 +93,7 @@ export class AuthService implements AuthServiceInterface {
 
     delete user.password;
 
-    const jwt = await this.jwtService.signAsync({user});
+    const jwt = await this.jwtService.signAsync({ user });
 
     return {
       token: jwt,
@@ -107,17 +101,14 @@ export class AuthService implements AuthServiceInterface {
     };
   }
 
-  /**
-   * Verify JWT
-   */
-  async verifyJwt(jwt: string): Promise<{exp: number}> {
+  async verifyJwt(jwt: string): Promise<{ exp: number }> {
     if (!jwt) {
       throw new UnauthorizedException();
     }
 
     try {
-      const {exp} = await this.jwtService.verifyAsync(jwt);
-      return {exp};
+      const { exp } = await this.jwtService.verifyAsync(jwt);
+      return { exp };
     } catch (error) {
       throw new UnauthorizedException();
     }
