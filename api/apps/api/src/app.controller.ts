@@ -78,6 +78,7 @@ export class AppController {
     @Req() req: UserRequest,
     @Param('friendId') friendId: number,
   ) {
+    console.log('req', req.user);
     if (!req?.user) {
       throw new BadRequestException();
     }

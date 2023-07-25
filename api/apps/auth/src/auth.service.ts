@@ -144,6 +144,7 @@ export class AuthService implements AuthServiceInterface {
   ): Promise<FriendRequestEntity> {
     const creator = await this.findById(userId);
     const receiver = await this.findById(friendId);
+
     return await this.friendRequestRepository.save({ creator, receiver });
   }
 

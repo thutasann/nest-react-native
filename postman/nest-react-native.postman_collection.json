@@ -35,7 +35,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"aung\",\n    \"lastName\": \"aung\",\n    \"email\": \"aung@gmail.com\",\n    \"password\": \"123123\"\n}",
+							"raw": "{\n    \"firstName\": \"john\",\n    \"lastName\": \"san\",\n    \"email\": \"john@gmail.com\",\n    \"password\": \"123123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"aung@gmail.com\",\n    \"password\": \"123123\"\n}",
+							"raw": "{\n    \"email\": \"john@gmail.com\",\n    \"password\": \"123123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,6 +94,16 @@
 				{
 					"name": "presence-get",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6ImF1bmciLCJsYXN0TmFtZSI6ImF1bmciLCJlbWFpbCI6ImF1bmdAZ21haWwuY29tIn0sImlhdCI6MTY5MDE5MTIwOCwiZXhwIjoxNjkwMTk0ODA4fQ.38GcjMKTn0HhUM2lsJcXdZY5EOiA6YBvF7NvMaWXJhc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -105,6 +115,76 @@
 							"port": "4000",
 							"path": [
 								"presence"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "friend-request",
+			"item": [
+				{
+					"name": "add-friend",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6ImhzdSIsImxhc3ROYW1lIjoieWV5d2VsIiwiZW1haWwiOiJoeXlAZ21haWwuY29tIn0sImlhdCI6MTY5MDI5NjA0MSwiZXhwIjoxNjkwMjk5NjQxfQ.KZoH8l2azTvntZsNMlMdmd7OyJYPsiPzH2xyzUakXsY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:4000/add-friend/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"add-friend",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get friends",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6InB5YWUiLCJsYXN0TmFtZSI6InRodXRhIiwiZW1haWwiOiJwdHRAZ21haWwuY29tIn0sImlhdCI6MTY5MDI5NjI3OCwiZXhwIjoxNjkwMjk5ODc4fQ.EHJPRnJDN7YkE1LllVbPpyESMuiE8qcPdPFPuG3g5Hk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/get-friends",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"get-friends"
 							]
 						}
 					},

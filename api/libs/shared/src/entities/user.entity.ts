@@ -28,5 +28,5 @@ export class UserEntity {
     () => FriendRequestEntity,
     (friendRequestEntity) => friendRequestEntity.receiver,
   )
-  friendRequestReceiver: FriendRequestEntity;
+  friendRequestReceiver: FriendRequestEntity[];
 }

@@ -29,6 +29,7 @@ export class UserInterceptor implements NestInterceptor {
     if (!authHeader) return next.handle();
 
     const authHeaderParts = authHeader.split(' ');
+    console.log('authHeaderParts', authHeaderParts);
 
     if (authHeaderParts.length !== 2) return next.handle();
 
