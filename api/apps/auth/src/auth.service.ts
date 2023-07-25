@@ -39,7 +39,7 @@ export class AuthService implements AuthServiceInterface {
       where: {
         email,
       },
-      select: ['firstName', 'lastName', 'email', 'password'],
+      select: ['id', 'firstName', 'lastName', 'email', 'password'],
     });
   }
 
@@ -95,10 +95,7 @@ export class AuthService implements AuthServiceInterface {
     return savedUser;
   }
 
-  async login(loginUser: Readonly<LoginUserDTO>): Promise<{
-    token: string;
-    user: UserEntity;
-  }> {
+  async login(loginUser: Readonly<LoginUserDTO>) {
     const { email, password } = loginUser;
     const user = await this.validateUser(email, password);
 
@@ -148,8 +145,9 @@ export class AuthService implements AuthServiceInterface {
     return await this.friendRequestRepository.save({ creator, receiver });
   }
 
-  async getFriends(userId: number): Promise<Array<FriendRequestEntity>> {
+  async getFriends(userId: number): Promise<FriendRequestEntity[]> {
     const creator = await this.findById(userId);
+
     return await this.friendRequestRepository.findWithRelations({
       where: [{ creator }, { receiver: creator }],
       relations: ['creator', 'receiver'],

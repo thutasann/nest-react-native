@@ -97,6 +97,7 @@ export class AppController {
   @UseInterceptors(UserInterceptor)
   @Get('get-friends')
   async getFriends(@Req() req: UserRequest) {
+    console.log('req', req.user);
     if (!req?.user) {
       throw new BadRequestException();
     }

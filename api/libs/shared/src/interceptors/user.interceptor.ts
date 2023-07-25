@@ -20,7 +20,7 @@ export class UserInterceptor implements NestInterceptor {
     @Inject('AUTH_SERVICE') private readonly authService: ClientProxy,
   ) {}
 
-  intercept(ctx: ExecutionContext, next: CallHandler<any>): Observable<any> {
+  intercept(ctx: ExecutionContext, next: CallHandler): Observable<any> {
     if (ctx.getType() !== 'http') return next.handle();
 
     const request = ctx.switchToHttp().getRequest();
@@ -29,7 +29,6 @@ export class UserInterceptor implements NestInterceptor {
     if (!authHeader) return next.handle();
 
     const authHeaderParts = authHeader.split(' ');
-    console.log('authHeaderParts', authHeaderParts);
 
     if (authHeaderParts.length !== 2) return next.handle();
 
