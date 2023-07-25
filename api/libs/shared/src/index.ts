@@ -20,3 +20,6 @@ export * from './repositories/base/base.interface.repository';
 // repositories
 export * from './repositories/users.repository';
 export * from './repositories/friend-request.repository';
+
+// interceptor
+export * from './interceptors/user.interceptor';

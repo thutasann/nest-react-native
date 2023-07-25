@@ -11,9 +11,11 @@ export interface AuthServiceInterface {
   register(newUser: Readonly<NewUserDTO>): Promise<UserEntity>;
   doesPasswordMatch(password: string, hashedPassword: string): Promise<boolean>;
   validateUser(email: string, password: string): Promise<UserEntity>;
-  login(loginUser: Readonly<LoginUserDTO>): Promise<{ token: string }>;
-  verifyJwt(jwt: string): Promise<{ exp: number }>;
-  getUserFromHeader(jwt: string): Promise<UserJwt>;
+  login(
+    loginUser: Readonly<LoginUserDTO>,
+  ): Promise<{ token: string; user: UserEntity }>;
+  verifyJwt(jwt: string): Promise<{ user: UserEntity; exp: number }>;
+  decodeJwt(jwt: string): Promise<UserJwt>;
   addFriend(userId: number, friendId: number): Promise<FriendRequestEntity>;
   getFriends(userId: number): Promise<FriendRequestEntity[]>;
 }

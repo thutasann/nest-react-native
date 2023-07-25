@@ -1,4 +1,4 @@
-import { AuthGuard, UserRequest } from '@app/shared';
+import { AuthGuard, UserInterceptor, UserRequest } from '@app/shared';
 import {
   BadRequestException,
   Body,
@@ -72,18 +72,7 @@ export class AppController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('presence')
-  async getPresence() {
-    return this.presenceService.send(
-      {
-        cmd: 'get-presence',
-      },
-      {},
-    );
-  }
-
-  @UseGuards(AuthGuard)
-  @UseInterceptors()
+  @UseInterceptors(UserInterceptor)
   @Post('add-friend/:friendId')
   async addFriend(
     @Req() req: UserRequest,
@@ -103,6 +92,8 @@ export class AppController {
     );
   }
 
+  @UseGuards(AuthGuard)
+  @UseInterceptors(UserInterceptor)
   @Get('get-friends')
   async getFriends(@Req() req: UserRequest) {
     if (!req?.user) {
@@ -115,6 +106,18 @@ export class AppController {
       {
         userId: req.user.id,
       },
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @UseInterceptors(UserInterceptor)
+  @Get('presence')
+  async getPresence() {
+    return this.presenceService.send(
+      {
+        cmd: 'get-presence',
+      },
+      {},
     );
   }
 }

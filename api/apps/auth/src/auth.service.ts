@@ -116,20 +116,20 @@ export class AuthService implements AuthServiceInterface {
     };
   }
 
-  async verifyJwt(jwt: string): Promise<{ exp: number }> {
+  async verifyJwt(jwt: string): Promise<{ user: UserEntity; exp: number }> {
     if (!jwt) {
       throw new UnauthorizedException();
     }
 
     try {
-      const { exp } = await this.jwtService.verifyAsync(jwt);
-      return { exp };
+      const { user, exp } = await this.jwtService.verifyAsync(jwt);
+      return { user, exp };
     } catch (error) {
       throw new UnauthorizedException();
     }
   }
 
-  async getUserFromHeader(jwt: string): Promise<UserJwt> {
+  async decodeJwt(jwt: string): Promise<UserJwt> {
     if (!jwt) return;
     try {
       return this.jwtService.decode(jwt) as UserJwt;

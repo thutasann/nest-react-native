@@ -44,6 +44,7 @@ export class AuthController {
     return this.authService.login(loginUser);
   }
 
+  // Used in AuthGuard
   @MessagePattern({ cmd: 'verify-jwt' })
   async verifyJwt(
     @Ctx() context: RmqContext,
@@ -53,13 +54,14 @@ export class AuthController {
     return this.authService.verifyJwt(payload.jwt);
   }
 
+  // Used in userInterceptor
   @MessagePattern({ cmd: 'decode-jwt' })
   async decodeJwt(
     @Ctx() context: RmqContext,
     @Payload() payload: { jwt: string },
   ) {
     this.sharedService.acknowledgeMessage(context);
-    return this.authService.getUserFromHeader(payload.jwt);
+    return this.authService.decodeJwt(payload.jwt);
   }
 
   @MessagePattern({ cmd: 'add-friend' })
