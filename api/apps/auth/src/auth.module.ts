@@ -4,6 +4,7 @@ import {
   SharedService,
   UserEntity,
   UsersRepository,
+  FriendRequestRepository,
 } from '@app/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -46,6 +47,10 @@ import { JwtStrategy } from './strategy/jwt-strategy';
     {
       provide: 'UsersRepositoryInterface',
       useClass: UsersRepository,
+    },
+    {
+      provide: 'FriendRequestRepositoryInterface',
+      useClass: FriendRequestRepository,
     },
     {
       provide: 'SharedServiceInterface',
