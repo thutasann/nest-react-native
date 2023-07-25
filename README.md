@@ -6,10 +6,16 @@ This is the FullStack Chat application with **Nestjs** and **React Native** main
 
 ```bash
 cd api
+
+yarn
+
 docker-compose up --build
 ```
 
 ```bash
 cd client
+
+yarn
+
 yarn start
 ```
