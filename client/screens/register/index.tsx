@@ -1,9 +1,10 @@
-import {SafeAreaView, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-native';
-import {styles} from './styles';
+import { SafeAreaView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-native';
+import { styles } from './styles';
 import Input from '../../shared/components/Input';
-import {Button} from 'react-native-paper';
+import { Button } from 'react-native-paper';
+import Loader from '../../shared/components/Loader';
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -45,13 +46,20 @@ const RegisterScreen = () => {
           mb={3}
         />
 
-        <Button
-          style={styles.registerButton}
-          labelStyle={styles.registerButtonText}
-          mode="contained"
-          onPress={handleRegister}>
-          Register
-        </Button>
+        <View style={styles.registerButtonContainer}>
+          {true ? (
+            <Loader />
+          ) : (
+            <Button
+              style={styles.registerButton}
+              labelStyle={styles.registerButtonText}
+              mode="contained"
+              onPress={handleRegister}
+            >
+              Register
+            </Button>
+          )}
+        </View>
       </View>
       <Button labelStyle={styles.signUpText} onPress={() => navigate('/login')}>
         Already a member ? Login

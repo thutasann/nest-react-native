@@ -1,8 +1,9 @@
-import {Pressable, SafeAreaView, Text, View} from 'react-native';
-import React from 'react';
-import {styles} from './styles';
-import {Avatar} from 'react-native-paper';
-import {useNavigate} from 'react-router-native';
+import { Pressable, SafeAreaView, Text, View } from 'react-native';
+import React, { useContext } from 'react';
+import { styles } from './styles';
+import { Avatar, Button } from 'react-native-paper';
+import { useNavigate } from 'react-router-native';
+import { AuthContext } from '../../shared/auth/context/auth.context';
 
 const friends = [
   {
@@ -21,14 +22,16 @@ const friends = [
 
 const ChatScreen = () => {
   const navigate = useNavigate();
+  const { onLogout } = useContext(AuthContext);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {friends.map(friend => (
+        {friends.map((friend) => (
           <Pressable
             key={friend.id}
-            onPress={() => navigate(`/chat/${friend.id}`)}>
+            onPress={() => navigate(`/chat/${friend.id}`)}
+          >
             <View style={styles.friend}>
               <Avatar.Image
                 size={62}
@@ -44,6 +47,7 @@ const ChatScreen = () => {
             </View>
           </Pressable>
         ))}
+        <Button onPress={onLogout}>Sign out</Button>
       </View>
     </SafeAreaView>
   );
