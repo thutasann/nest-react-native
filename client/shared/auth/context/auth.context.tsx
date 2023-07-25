@@ -1,8 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { createContext, useState } from 'react';
 import { IAuthContext } from '../../../types';
-import { ILoginUser, IUserDetails } from '../interfaces/UserDetails';
+import {
+  ICredentials,
+  ILoginUser,
+  IUserDetails,
+} from '../interfaces/UserDetails';
 import { login } from '../requests';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext<IAuthContext>({
   userDetails: undefined,
@@ -23,19 +28,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (loginUser: ILoginUser) => login(loginUser),
     {
       onSuccess: (credentials) => {
-        setIsLoggingIn(false);
         setUserDetails(credentials.user);
         setJwt(credentials.token);
         setIsLoggedIn(true);
+        _storeCredentials(credentials);
+        setIsLoggingIn(false);
       },
-      onSettled: () => {
+      onError: (err) => {
         setIsLoggingIn(false);
       },
     },
   );
 
+  const _storeCredentials = async (credentials: ICredentials) => {
+    try {
+      await AsyncStorage.setItem('credentials', JSON.stringify(credentials));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const loginHandler = (loginUser: ILoginUser) => {
-    setIsLoggedIn(true);
+    setIsLoggingIn(true);
     loginMutation.mutate(loginUser);
   };
 

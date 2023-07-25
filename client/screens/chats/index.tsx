@@ -4,6 +4,8 @@ import { styles } from './styles';
 import { Avatar, Button } from 'react-native-paper';
 import { useNavigate } from 'react-router-native';
 import { AuthContext } from '../../shared/auth/context/auth.context';
+import { useQuery } from '@tanstack/react-query';
+import { baseUrl, get } from '../../shared/request';
 
 const friends = [
   {
@@ -22,7 +24,20 @@ const friends = [
 
 const ChatScreen = () => {
   const navigate = useNavigate();
-  const { onLogout } = useContext(AuthContext);
+  const { jwt, onLogout } = useContext(AuthContext);
+
+  useQuery(
+    ['presence'],
+    async () => {
+      const { data: presence } = await get(baseUrl + '/presence');
+      console.log('presence', presence);
+      console.log('jwt', jwt);
+      return presence;
+    },
+    {
+      enabled: !!jwt,
+    },
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

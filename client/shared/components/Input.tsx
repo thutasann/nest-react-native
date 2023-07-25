@@ -1,6 +1,6 @@
-import {View, Text} from 'react-native';
-import React, {Dispatch, SetStateAction} from 'react';
-import {TextInput} from 'react-native-paper';
+import { View, Text } from 'react-native';
+import React, { Dispatch, SetStateAction } from 'react';
+import { TextInput } from 'react-native-paper';
 import {
   COLOR_FB_SECONDARY,
   COLOR_LIGHT_GRAY,
@@ -28,7 +28,10 @@ const Input = ({
     <TextInput
       mode={mode}
       outlineStyle={
-        mode === 'outlined' && {borderRadius: 16, borderColor: COLOR_LIGHT_GRAY}
+        mode === 'outlined' && {
+          borderRadius: 16,
+          borderColor: COLOR_LIGHT_GRAY,
+        }
       }
       style={{
         backgroundColor: mode === 'flat' ? COLOR_WHITE : COLOR_LIGHT_GRAY,
@@ -42,6 +45,7 @@ const Input = ({
       onChangeText={onChangeText}
       accessibilityLabelledBy={undefined}
       accessibilityLanguage={undefined}
+      autoCapitalize="none"
     />
   );
 };

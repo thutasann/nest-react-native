@@ -23,7 +23,7 @@ export const register = async (
 
 export const login = async (loginUser: ILoginUser): Promise<ICredentials> => {
   const { data: credentials } = await post<ICredentials>(
-    `/${baseUrl}/auth/login`,
+    `${baseUrl}/auth/login`,
     loginUser,
   );
   return credentials;

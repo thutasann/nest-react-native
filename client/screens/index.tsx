@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { BottomNavigation as Screens } from 'react-native-paper';
 import ChatScreen from './chats';
@@ -9,8 +9,10 @@ import { INavRoutes } from '../types';
 import MessageScreen from './message';
 import LoginScreen from './login';
 import RegisterScreen from './register';
+import { AuthContext } from '../shared/auth/context/auth.context';
 
 const AppScreens = () => {
+  const { isLoggedIn } = useContext(AuthContext);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState<INavRoutes[]>([
     {
@@ -32,23 +34,37 @@ const AppScreens = () => {
 
   return (
     <NativeRouter>
-      <Routes>
-        <Route path="/" element={<RegisterScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
-        <Route path="/login" element={<LoginScreen />} />
-
-        <Route
-          path="/chats"
-          element={
-            <Screens
-              navigationState={{ index, routes }}
-              onIndexChange={setIndex}
-              renderScene={renderScene}
-            />
-          }
-        />
-        <Route path="/chat/:chatId" element={<MessageScreen />} />
-      </Routes>
+      {isLoggedIn ? (
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Screens
+                navigationState={{ index, routes }}
+                onIndexChange={setIndex}
+                renderScene={renderScene}
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Screens
+                navigationState={{ index, routes }}
+                onIndexChange={setIndex}
+                renderScene={renderScene}
+              />
+            }
+          />
+          <Route path="/chat/:chatId" element={<MessageScreen />} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/" element={<RegisterScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/login" element={<LoginScreen />} />
+        </Routes>
+      )}
     </NativeRouter>
   );
 };

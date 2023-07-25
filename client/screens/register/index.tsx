@@ -5,6 +5,9 @@ import { styles } from './styles';
 import Input from '../../shared/components/Input';
 import { Button } from 'react-native-paper';
 import Loader from '../../shared/components/Loader';
+import { useMutation } from '@tanstack/react-query';
+import { IRegisterUser } from '../../shared/auth/interfaces/UserDetails';
+import { register } from '../../shared/auth/requests';
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -13,7 +16,32 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleRegister = () => {};
+  const registerMutation = useMutation(
+    (newUser: IRegisterUser) => register(newUser),
+    {
+      onSuccess: () => {
+        resetForm();
+        navigate('/login');
+      },
+    },
+  );
+
+  const handleRegister = () => {
+    if (!firstName || !lastName || !email || !password) return;
+    registerMutation.mutate({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+  };
+
+  const resetForm = () => {
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPassword('');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +75,7 @@ const RegisterScreen = () => {
         />
 
         <View style={styles.registerButtonContainer}>
-          {true ? (
+          {registerMutation.isLoading ? (
             <Loader />
           ) : (
             <Button

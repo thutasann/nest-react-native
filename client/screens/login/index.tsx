@@ -5,17 +5,13 @@ import { styles } from './styles';
 import Input from '../../shared/components/Input';
 import { Button } from 'react-native-paper';
 import { AuthContext } from '../../shared/auth/context/auth.context';
+import Loader from '../../shared/components/Loader';
 
 const LoginScreen = () => {
   const { isLoggingIn, onLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleRegister = () => {
-    setEmail('');
-    setPassword('');
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,14 +33,22 @@ const LoginScreen = () => {
           mb={3}
         />
 
-        <Button
-          style={styles.registerButton}
-          labelStyle={styles.registerButtonText}
-          mode="contained"
-          onPress={handleRegister}
-        >
-          Login
-        </Button>
+        {isLoggingIn ? (
+          <Loader />
+        ) : (
+          <Button
+            style={styles.registerButton}
+            labelStyle={styles.registerButtonText}
+            mode="contained"
+            onPress={() => {
+              onLogin({ email, password });
+              setEmail('');
+              setPassword('');
+            }}
+          >
+            Login
+          </Button>
+        )}
       </View>
 
       <Button
