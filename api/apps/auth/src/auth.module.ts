@@ -21,24 +21,29 @@ import { JwtStrategy } from './strategy/jwt-strategy';
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '3600s',
-        },
+        signOptions: { expiresIn: '3600s' },
       }),
       inject: [ConfigService],
     }),
+
     SharedModule,
     PostgresDBModule,
+
     TypeOrmModule.forFeature([UserEntity, FriendRequestEntity]),
   ],
+
   controllers: [AuthController],
+
   providers: [
-    AuthService,
     JwtGuard,
     JwtStrategy,
     {
       provide: 'AuthServiceInterface',
       useClass: AuthService,
+    },
+    {
+      provide: 'SharedServiceInterface',
+      useClass: SharedService,
     },
     {
       provide: 'UsersRepositoryInterface',
@@ -47,10 +52,6 @@ import { JwtStrategy } from './strategy/jwt-strategy';
     {
       provide: 'FriendRequestRepositoryInterface',
       useClass: FriendRequestRepository,
-    },
-    {
-      provide: 'SharedServiceInterface',
-      useClass: SharedService,
     },
   ],
 })

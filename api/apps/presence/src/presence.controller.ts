@@ -16,14 +16,5 @@ export class PresenceController {
   async getPresence(@Ctx() context: RmqContext) {
     this.shareService.acknowledgeMessage(context);
     return this.presenceService.getHello();
-    // const foo = await this.redisService.get('foo');
-    // if (foo) {
-    //   console.log('CACHED 🔐');
-    //   return foo;
-    // }
-
-    // const res = await this.presenceService.getHello();
-    // this.redisService.set('foo', res);
-    // return res;
   }
 }

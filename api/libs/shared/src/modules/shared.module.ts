@@ -1,16 +1,14 @@
-import { DynamicModule, forwardRef, Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { SharedService } from '@app/shared';
+import { SharedService } from '../services/shared.service';
 
 @Module({
   imports: [
-    forwardRef(() =>
-      ConfigModule.forRoot({
-        isGlobal: true,
-        envFilePath: './.env',
-      }),
-    ),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: './.env',
+    }),
   ],
   providers: [SharedService],
   exports: [SharedService],

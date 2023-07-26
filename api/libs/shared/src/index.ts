@@ -5,7 +5,7 @@ export * from './modules/redis.module';
 
 // services
 export * from './services/shared.service';
-export * from './services/redis.service';
+export * from './services/redis-cache.service';
 
 // guards
 export * from './guards/auth.guard';
