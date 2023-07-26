@@ -78,7 +78,6 @@ export class AppController {
     @Req() req: UserRequest,
     @Param('friendId') friendId: number,
   ) {
-    console.log('req', req.user);
     if (!req?.user) {
       throw new BadRequestException();
     }
@@ -97,7 +96,6 @@ export class AppController {
   @UseInterceptors(UserInterceptor)
   @Get('get-friends')
   async getFriends(@Req() req: UserRequest) {
-    console.log('req', req.user);
     if (!req?.user) {
       throw new BadRequestException();
     }
