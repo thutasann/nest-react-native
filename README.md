@@ -4,8 +4,7 @@ This is the FullStack Chat application with **Nestjs** and **React Native** main
 
 ## Features
 
-You might be wondering what features are included in this app. <br/>
-Here you go...
+You might be wondering what features are included in this app. Here you go...
 
 - 🚀 Friend Request Feature
 - 🚀 Friend Accept Feature

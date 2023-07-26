@@ -1,22 +1,21 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, forwardRef, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { SharedService } from './shared.service';
+import { SharedService } from '@app/shared';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: './.env',
-    }),
+    forwardRef(() =>
+      ConfigModule.forRoot({
+        isGlobal: true,
+        envFilePath: './.env',
+      }),
+    ),
   ],
   providers: [SharedService],
   exports: [SharedService],
 })
 export class SharedModule {
-  /**
-   * Register RabbitRMQ method
-   */
   static registerRmq(service: string, queue: string): DynamicModule {
     const providers = [
       {
@@ -32,7 +31,7 @@ export class SharedModule {
               urls: [`amqp://${USER}:${PASSWORD}@${HOST}`],
               queue,
               queueOptions: {
-                durable: true,
+                durable: true, // queue survives broker restart
               },
             },
           });
