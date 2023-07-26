@@ -19,6 +19,7 @@ export * from './interfaces/shared.service.interface';
 export * from './interfaces/users.repository.interface';
 export * from './interfaces/friend-request.repository.interface';
 export * from './interfaces/user-request.interface';
+export * from './interfaces/active-user.interface';
 
 // base repository
 export * from './repositories/base/base.abstract.respository';
