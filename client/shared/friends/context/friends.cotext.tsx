@@ -9,6 +9,7 @@ import React, {
 import SocketIOClient from 'socket.io-client';
 import { IFriendsContext } from '../../../types';
 import { AuthContext } from '../../auth/context/auth.context';
+import { IUserDetails } from '../../auth/interfaces/UserDetails';
 import { getFriends } from '../helpers/friends';
 import { IActiveFriend } from '../interfaces';
 import { getFriendRequests } from '../requests';
@@ -20,7 +21,7 @@ export const FriendsContext = createContext<IFriendsContext>({
   isLoading: false,
 });
 
-const baseUrl = 'http://localhost:6000';
+const baseUrl = 'http://localhost:3000';
 
 export const FriendsProvider = ({
   children,
@@ -38,7 +39,10 @@ export const FriendsProvider = ({
       setIsLoading(true);
       const friendRequests = await getFriendRequests();
       console.log('friendRequests', friendRequests);
-      const _friends = getFriends(friendRequests, userDetails?.id!);
+      const _friends = getFriends(
+        friendRequests,
+        (userDetails as IUserDetails).id!,
+      );
 
       const activeFriends: IActiveFriend[] = _friends.map((f) => ({
         ...f,
@@ -80,7 +84,7 @@ export const FriendsProvider = ({
         setFriends((prev) => {
           if (userDetails?.id === id) return prev;
           const updateFriends = [...prev];
-          (updateFriends.find((f) => f.id === id) as IActiveFriend).isActive =
+          (updateFriends?.find((f) => f.id === id) as IActiveFriend).isActive =
             isFriendActive;
           return updateFriends;
         });

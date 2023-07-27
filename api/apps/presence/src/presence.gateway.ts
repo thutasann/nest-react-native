@@ -100,7 +100,6 @@ export class PresenceGateway
 
       const friend = user as IActiveUser;
 
-      // This update is for the Other Persons for your Friend
       this.server.to(friend.socketId).emit('friendActive', {
         id: activeUser.id,
         isActive: activeUser.isActive,

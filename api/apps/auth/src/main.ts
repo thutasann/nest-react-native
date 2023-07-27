@@ -13,6 +13,6 @@ async function bootstrap() {
   const queue = configService.get('RABBITMQ_AUTH_QUEUE');
 
   app.connectMicroservice(sharedService.getRmqOptions(queue));
-  app.startAllMicroservices();
+  await app.startAllMicroservices();
 }
 bootstrap();
