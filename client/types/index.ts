@@ -17,6 +17,7 @@ export interface IAuthContext {
   jwt?: string;
   isLoggedIn: boolean;
   isLoggingIn: boolean;
+  isActive: boolean;
   onLogin: (loginUser: ILoginUser) => void;
   onLogout: () => void;
 }
