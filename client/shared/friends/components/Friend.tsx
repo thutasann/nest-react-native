@@ -15,11 +15,11 @@ interface IFriend {
 const Friend = ({ friend, showMessage }: IFriend) => {
   const navigate = useNavigate();
   const { id, firstName, lastName, isActive } = friend;
-  const { setFriend } = useContext(FriendsContext);
+  // const { setFriend } = useContext(FriendsContext);
 
-  useEffect(() => {
-    setFriend(friend);
-  }, [friend, isActive, setFriend]);
+  // useEffect(() => {
+  //   setFriend(friend);
+  // }, [friend, isActive, setFriend]);
 
   return (
     <Pressable
@@ -53,6 +53,7 @@ const Friend = ({ friend, showMessage }: IFriend) => {
           <Text>
             {firstName} {lastName}
           </Text>
+          <Text> {isActive ? 'online' : 'offline'}</Text>
           {showMessage && <Text>This was the last message | Sun</Text>}
         </View>
       </View>

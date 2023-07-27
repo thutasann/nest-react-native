@@ -851,7 +851,7 @@
   dependencies:
     uuid "9.0.0"
 
-"@nestjs/websockets@^10.1.2":
+"@nestjs/websockets@^10.0.0":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@nestjs/websockets/-/websockets-10.1.2.tgz#7b44f58f391ba476c1d1fcb83fb85bf956216e27"
   integrity sha512-4ENk/aZytxy1A9YDtGBH6GiJoT/f9VfR/6SFC3FKrsxwElrHtV18ah25NiUbKuhB6uJJf0JxrMawKlGDTSz+qQ==

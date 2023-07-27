@@ -37,6 +37,7 @@ export const FriendsProvider = ({
     async () => {
       setIsLoading(true);
       const friendRequests = await getFriendRequests();
+      console.log('friendRequests', friendRequests);
       const _friends = getFriends(friendRequests, userDetails?.id!);
 
       const activeFriends: IActiveFriend[] = _friends.map((f) => ({
