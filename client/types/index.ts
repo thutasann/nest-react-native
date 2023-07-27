@@ -2,6 +2,7 @@ import {
   ILoginUser,
   IUserDetails,
 } from '../shared/auth/interfaces/UserDetails';
+import { IActiveFriend } from '../shared/friends/interfaces';
 
 export interface INavRoutes {
   key: string;
@@ -20,4 +21,14 @@ export interface IAuthContext {
   isActive: boolean;
   onLogin: (loginUser: ILoginUser) => void;
   onLogout: () => void;
+}
+
+/**
+ * Friends Context Props
+ */
+export interface IFriendsContext {
+  friends: IActiveFriend[];
+  friend: IActiveFriend;
+  setFriend: (friend: IActiveFriend) => void;
+  isLoading: boolean;
 }

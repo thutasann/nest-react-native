@@ -1,6 +1,9 @@
 import { IUserDetails } from '../../auth/interfaces/UserDetails';
 import { IFriendRequest } from '../interfaces';
 
+/**
+ * Get Friends Util Function
+ */
 export const getFriends = (
   friendRequests: IFriendRequest[],
   userId: number,
@@ -10,8 +13,8 @@ export const getFriends = (
     const friendDetails = isUserCreator
       ? friendRequest.receiver
       : friendRequest.creator;
-    const { id, firstName, lastName, email } = friendDetails;
 
+    const { id, firstName, lastName, email } = friendDetails;
     return {
       id,
       email,

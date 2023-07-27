@@ -1,10 +1,11 @@
-import {SafeAreaView, Text} from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 import React from 'react';
+import Friends from '../../shared/friends/components/Friends';
 
 const PeopleScreen = () => {
   return (
     <SafeAreaView>
-      <Text>PeopleScreen</Text>
+      <Friends />
     </SafeAreaView>
   );
 };

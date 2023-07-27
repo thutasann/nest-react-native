@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import React, {
   createContext,
   useContext,
@@ -6,10 +7,18 @@ import React, {
   useState,
 } from 'react';
 import SocketIOClient from 'socket.io-client';
+import { IFriendsContext } from '../../../types';
 import { AuthContext } from '../../auth/context/auth.context';
+import { getFriends } from '../helpers/friends';
 import { IActiveFriend } from '../interfaces';
+import { getFriendRequests } from '../requests';
 
-export const FriendContext = createContext({});
+export const FriendsContext = createContext<IFriendsContext>({
+  friends: [],
+  friend: {} as IActiveFriend,
+  setFriend: () => null,
+  isLoading: false,
+});
 
 const baseUrl = 'http://localhost:6000';
 
@@ -19,7 +28,33 @@ export const FriendsProvider = ({
   children: React.ReactNode;
 }) => {
   const { isActive, jwt, isLoggedIn, userDetails } = useContext(AuthContext);
+  const [friend, setFriend] = useState<IActiveFriend>({} as IActiveFriend);
   const [friends, setFriends] = useState<IActiveFriend[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useQuery(
+    ['friendRequests'],
+    async () => {
+      setIsLoading(true);
+      const friendRequests = await getFriendRequests();
+      const _friends = getFriends(friendRequests, userDetails?.id!);
+
+      const activeFriends: IActiveFriend[] = _friends.map((f) => ({
+        ...f,
+        isActive: false,
+      }));
+
+      setFriends(activeFriends);
+
+      return _friends;
+    },
+    {
+      enabled: isLoggedIn,
+      onSettled: () => {
+        setIsLoading(false);
+      },
+    },
+  );
 
   const socket = useMemo(
     () =>
@@ -45,12 +80,28 @@ export const FriendsProvider = ({
           if (userDetails?.id === id) return prev;
           const updateFriends = [...prev];
           (updateFriends.find((f) => f.id === id) as IActiveFriend).isActive =
-            isActive;
+            isFriendActive;
           return updateFriends;
         });
       },
     );
+
+    return () => {
+      socket.emit('updateActiveStatus', false);
+      socket.off('friendActive');
+    };
   }, [socket, isActive, userDetails]);
 
-  return <FriendContext.Provider value={{}}>{children}</FriendContext.Provider>;
+  return (
+    <FriendsContext.Provider
+      value={{
+        friends,
+        friend,
+        setFriend,
+        isLoading,
+      }}
+    >
+      {children}
+    </FriendsContext.Provider>
+  );
 };
