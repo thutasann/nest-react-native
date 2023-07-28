@@ -2,6 +2,7 @@ import { DeepPartial, FindManyOptions, FindOneOptions } from 'typeorm';
 
 /**
  * Base Interface Repository
+ * @param {T} t - Entity Template
  * @description This is the BaseInterfaceRepository including the Repository Methods
  */
 export interface BaseInterfaceRepository<T> {

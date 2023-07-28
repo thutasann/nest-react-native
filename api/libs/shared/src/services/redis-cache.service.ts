@@ -11,12 +11,16 @@ export class RedisCacheService {
     return await this.cache.get(key);
   }
 
-  async set<T>(key: string, value: T) {
+  async set<T>(key: string, value: T, ttl = 0) {
     console.log(`SET ${key} to REDIS 🔴`);
-    await this.cache.set(key, value);
+    await this.cache.set(key, value, ttl);
   }
 
   async del(key: string) {
     await this.cache.del(key);
+  }
+
+  async reset() {
+    await this.cache.reset();
   }
 }

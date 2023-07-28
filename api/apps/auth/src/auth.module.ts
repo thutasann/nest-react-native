@@ -6,6 +6,8 @@ import {
   UsersRepository,
   FriendRequestRepository,
   FriendRequestEntity,
+  ConversationEntity,
+  MessageEntity,
 } from '@app/shared';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -29,7 +31,12 @@ import { JwtStrategy } from './strategy/jwt-strategy';
     SharedModule,
     PostgresDBModule,
 
-    TypeOrmModule.forFeature([UserEntity, FriendRequestEntity]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      FriendRequestEntity,
+      ConversationEntity,
+      MessageEntity,
+    ]),
   ],
 
   controllers: [AuthController],

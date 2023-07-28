@@ -13,6 +13,8 @@ interface HasId {
 
 /**
  * Base Abstract Repository
+ * @param {T} t - Entity Template
+ * @description This is the BaseAbstractRepository including the Repository Methods
  */
 export abstract class BaseAbstractRepository<T extends HasId>
   implements BaseInterfaceRepository<T>

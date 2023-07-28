@@ -7,6 +7,11 @@ import { SharedServiceInterface } from '@app/shared';
 export class SharedService implements SharedServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
+  /**
+   * Get RMQ Options
+   * @description This is the method for getting RMQ Options
+   * to connectMicroservice
+   */
   getRmqOptions(queue: string): RmqOptions {
     const USER = this.configService.get('RABBITMQ_USER');
     const PASSWORD = this.configService.get('RABBITMQ_PASS');

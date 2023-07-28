@@ -30,8 +30,12 @@ export class AuthService implements AuthServiceInterface {
     private readonly friendRequestRepository: FriendRequestRepositoryInterface,
   ) {}
 
-  async getUsers() {
+  async getUsers(): Promise<UserEntity[]> {
     return this.userRepository.findAll();
+  }
+
+  async getUserById(id: number): Promise<UserEntity> {
+    return this.userRepository.findOneById(id);
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
@@ -152,5 +156,26 @@ export class AuthService implements AuthServiceInterface {
       where: [{ creator }, { receiver: creator }],
       relations: ['creator', 'receiver'],
     });
+  }
+
+  async getFriendsList(userId: number) {
+    const friendRequests = await this.getFriends(userId);
+    if (!friendRequests) return [];
+
+    const friends = friendRequests.map((friendRequest) => {
+      const isUserCreator = userId === friendRequest.creator.id;
+      const friendDetails = isUserCreator
+        ? friendRequest.receiver
+        : friendRequest.creator;
+      const { id, firstName, lastName, email } = friendDetails;
+      return {
+        id,
+        firstName,
+        lastName,
+        email,
+      };
+    });
+
+    return friends;
   }
 }
