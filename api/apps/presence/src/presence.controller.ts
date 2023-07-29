@@ -8,7 +8,6 @@ import {
   RmqContext,
 } from '@nestjs/microservices';
 import { PresenceService } from './presence.service';
-import { Context } from '@nestjs/graphql';
 
 @Controller()
 export class PresenceController {
@@ -26,7 +25,7 @@ export class PresenceController {
 
   @MessagePattern({ cmd: 'get-active-user' })
   async getActiveUser(
-    @Context() context: RmqContext,
+    @Ctx() context: RmqContext,
     @Payload() payload: { id: number },
   ) {
     this.shareService.acknowledgeMessage(context);
