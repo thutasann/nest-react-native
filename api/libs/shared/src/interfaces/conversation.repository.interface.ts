@@ -4,7 +4,9 @@ import { BaseInterfaceRepository } from '../repositories/base/base.interface.rep
 export interface ConversationRepositoryInterface
   extends BaseInterfaceRepository<ConversationEntity> {
   /**
-   * Fine Conversation Method
+   * Find Conversation Method
+   * @param { number } userId - LoggedIn User ID
+   * @param { number } friendId - Friend ID
    */
   findConversation(
     userId: number,

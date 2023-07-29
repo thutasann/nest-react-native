@@ -13,7 +13,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ChatController } from './chat.controller';
 import { ChatService } from './chat.service';
-import { ChatGateway } from './chate.gateway';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [

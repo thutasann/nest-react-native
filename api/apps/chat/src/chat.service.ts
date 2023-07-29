@@ -6,6 +6,7 @@ import {
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { NewMessageDTO } from './dtos/NewMessage.dto';
 
 @Injectable()
 export class ChatService {
@@ -71,5 +72,24 @@ export class ChatService {
     }
 
     return conversation;
+  }
+
+  async createMessage(userId: number, newMessage: NewMessageDTO) {
+    const user = await this.getUser(userId);
+
+    if (!user) return;
+
+    const conversation = await this.conversationRepository.findConversation(
+      userId,
+      newMessage.friendId,
+    );
+
+    if (!conversation) return;
+
+    return await this.messageRepository.save({
+      message: newMessage.message,
+      user,
+      conversation,
+    });
   }
 }
