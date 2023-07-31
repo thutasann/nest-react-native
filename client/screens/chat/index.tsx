@@ -16,22 +16,22 @@ import SocketIOClient from 'socket.io-client';
 
 const ChatScreen = () => {
   const { jwt, userDetails } = useContext(AuthContext);
-  const { chatId } = useParams();
+  const { friendId } = useParams();
   const navigate = useNavigate();
   const [text, setText] = useState('');
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const conversationId = 0;
   const [conversations, setConversations] = useState<IConversation[]>([]);
+  console.log('messages', messages);
 
-  const conversationsId = conversations.find((conversation) =>
-    conversation.userIds.includes(+(chatId ?? -1)),
+  const conversationId = conversations.find((conversation) =>
+    conversation.userIds.includes(+(friendId ?? -1)),
   )?.id;
 
   const conversationMessages = [...messages].filter(
     (message) => message.conversationId === conversationId,
   );
 
-  const conversationBaseUrl = 'http://localhost:4001';
+  const conversationBaseUrl = 'http://localhost:2000';
 
   const conversationSocket = useMemo(
     () =>
@@ -47,6 +47,7 @@ const ChatScreen = () => {
     [jwt, conversationBaseUrl],
   );
 
+  // getAllConversations
   useEffect(() => {
     if (conversations?.length > 0) return;
     conversationSocket.on(
@@ -60,8 +61,10 @@ const ChatScreen = () => {
     };
   }, [conversationSocket, conversations]);
 
+  // newMessage
   useEffect(() => {
     conversationSocket.on('newMessage', (message: IMessage) => {
+      console.log('message', message);
       setMessages((prev) => [...prev, message]);
     });
     return () => {
@@ -78,14 +81,18 @@ const ChatScreen = () => {
     };
     setMessages((prev) => [...prev, newMessage]);
 
-    conversationSocket.emit('newMessage', {
+    conversationSocket.emit('sendMessage', {
       message: text,
-      friendId: chatId,
+      friendId,
       conversationId,
     });
 
     setText('');
   };
+
+  // console.log('conversations', conversations);
+  // console.log('conversationId', conversationId);
+  // console.log('conversationMessages', conversationMessages);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,7 +101,7 @@ const ChatScreen = () => {
         <Avatar.Image
           size={36}
           source={{
-            uri: `https://randomuser.me/api/portraits/men/${chatId}.jpg`,
+            uri: `https://randomuser.me/api/portraits/men/${friendId}.jpg`,
           }}
         />
 
@@ -134,7 +141,7 @@ const ChatScreen = () => {
 
       {/* Messages View */}
       <ScrollView style={styles.chatContainer}>
-        <Text>{chatId}</Text>
+        <Text>friend id: {friendId}</Text>
         {conversationMessages.map((message, i) => (
           <View
             key={i}

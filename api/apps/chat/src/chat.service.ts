@@ -79,10 +79,10 @@ export class ChatService {
 
     if (!user) return;
 
-    const conversation = await this.conversationRepository.findConversation(
-      userId,
-      newMessage.friendId,
-    );
+    const conversation = await this.conversationRepository.findByCondition({
+      where: [{ id: newMessage.conversationId }],
+      relations: ['users'],
+    });
 
     if (!conversation) return;
 

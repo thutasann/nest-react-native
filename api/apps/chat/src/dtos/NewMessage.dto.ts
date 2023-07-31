@@ -1,5 +1,5 @@
 export class NewMessageDTO {
   message: string;
-  conversationid: number;
+  conversationId: number;
   friendId: number;
 }
