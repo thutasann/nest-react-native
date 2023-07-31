@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { NativeRouter, Route, Routes } from 'react-router-native';
 import { BottomNavigation as Screens } from 'react-native-paper';
-import ChatScreen from './chats';
+import ChatsScreen from './chats';
 import CallScreen from './calls';
 import StoriesScreen from './stories';
 import PeopleScreen from './people';
 import { INavRoutes } from '../types';
-import MessageScreen from './message';
 import LoginScreen from './login';
 import RegisterScreen from './register';
 import { AuthContext } from '../shared/auth/context/auth.context';
+import ChatScreen from './chat';
 
 const AppScreens = () => {
   const { isLoggedIn } = useContext(AuthContext);
@@ -26,7 +26,7 @@ const AppScreens = () => {
   ]);
 
   const renderScene = Screens.SceneMap({
-    chats: ChatScreen,
+    chats: ChatsScreen,
     calls: CallScreen,
     people: PeopleScreen,
     stories: StoriesScreen,
@@ -56,7 +56,7 @@ const AppScreens = () => {
               />
             }
           />
-          <Route path="/chat/:chatId" element={<MessageScreen />} />
+          <Route path="/chat/:friendId" element={<ChatScreen />} />
         </Routes>
       ) : (
         <Routes>

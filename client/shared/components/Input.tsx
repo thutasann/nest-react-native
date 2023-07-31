@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { Dispatch, SetStateAction } from 'react';
 import { TextInput } from 'react-native-paper';
 import {

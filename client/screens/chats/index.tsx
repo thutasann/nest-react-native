@@ -2,7 +2,7 @@ import { SafeAreaView } from 'react-native';
 import React from 'react';
 import Friends from '../../shared/friends/components/Friends';
 
-const ChatScreen = () => {
+const ChatsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Friends showMessage />
@@ -10,4 +10,4 @@ const ChatScreen = () => {
   );
 };
 
-export default ChatScreen;
+export default ChatsScreen;

@@ -83,9 +83,14 @@ export const FriendsProvider = ({
       ({ id, isActive: isFriendActive }: { id: number; isActive: boolean }) => {
         setFriends((prev) => {
           if (userDetails?.id === id) return prev;
+
           const updateFriends = [...prev];
-          (updateFriends?.find((f) => f.id === id) as IActiveFriend).isActive =
-            isFriendActive;
+          const activeFriend = updateFriends.find((f) => f.id === id);
+
+          if (!activeFriend) return prev;
+
+          activeFriend.isActive = isFriendActive;
+
           return updateFriends;
         });
       },
